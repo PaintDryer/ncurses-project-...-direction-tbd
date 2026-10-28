@@ -17,6 +17,7 @@ double time_diff(timepoint* a, timepoint* b)
 	return (t);
 }
 
+// clock_gettime is used because time() doesn't go below seconds
 timepoint set_now(timepoint* t)
 {
 	if (!t)
@@ -34,6 +35,7 @@ timepoint set_now(timepoint* t)
 	}
 }
 
+// debugging option should never be included in game loop
 void display_fps(timepoint* curr, timepoint* last, double* deltatime)
 {
 	static int seconds = 0;
@@ -41,7 +43,7 @@ void display_fps(timepoint* curr, timepoint* last, double* deltatime)
 	mvprintw(0,0, "deltatime: %.2f ms\n",
 			*deltatime / MILLION);
 	
-	if (curr->tv_nsec < last->tv_nsec)
+	if (curr->tv_nsec < last->tv_nsec) // check for nanosecond rollover
 	{
 		mvprintw(1,0, "seconds: %d, fps: %d", seconds++, framecount);
 		framecount = 0;
@@ -54,5 +56,4 @@ void display_fps(timepoint* curr, timepoint* last, double* deltatime)
 		mvprintw(4,1,"difference: %d",
 				(int)(curr->tv_nsec - last->tv_nsec));
 	}
-	
 }

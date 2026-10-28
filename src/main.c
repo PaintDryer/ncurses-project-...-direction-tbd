@@ -8,14 +8,17 @@ int main(void) {
 	initscr();				// start curses mode
 	noecho();				// no echo
 	raw();					// no line buffering
-	keypad(stdscr, TRUE);	// F keys
-	
-	timeout(1);
-	timepoint	lastframe = set_now(NULL);
+	keypad(stdscr, TRUE);	// F keys	
+	timeout(1);				// getch() timeout
+
+	timepoint	lastframe = set_now(NULL); // needed for deltatime
 	
 	char c = getch();
+
+	// q or f1 to exit
 	while (!(c == KEY_F(1) || c == 'q'))
 	{
+		// deltatime.c / .h
 		timepoint currenttime = set_now(NULL);
 		double deltatime = time_diff(&currenttime, &lastframe);
 		if (deltatime >= 16.0 * MILLION) // ns -> ms
@@ -24,7 +27,7 @@ int main(void) {
 				display_fps(&currenttime, &lastframe, &deltatime);
 			set_now(&lastframe);
 		}
-		c = getch();
+		c = getch(); // default after timeout is ERR
 		if (c != ERR)
 			mvprintw(10,10, "%c", c);
 	}

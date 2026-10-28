@@ -3,7 +3,8 @@
 
 #include "vec2.h"
 
-struct t_entity // v = u + at
+// v = u + at
+struct t_entity
 {	
 	vec2 u;
 	vec2 v;
@@ -20,12 +21,16 @@ typedef struct t_gameworld
 	double			gravity;
 } gameworld;
 
+// should be bitmasked
+// and manage overlap with char buffer
 typedef struct t_input
 {
 	vec2 dir;
 	// char* keys;
 } input;
 
+// functions
 gameworld* new_world();
 gameworld* process(gameworld* g, double deltatime, char input);
+
 #endif

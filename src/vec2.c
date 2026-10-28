@@ -1,5 +1,6 @@
 #include "vec2.h"
 
+// some initialisers
 static inline vec2 vec_zero()
 {
 	vec2 v = {};
